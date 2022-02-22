@@ -37,7 +37,7 @@
         </div>
     </div>
     <div>
-        <input type="button" value="Add" onclick="addToTable();">
+        <input type="button" value="Add" onclick="addToTable(); counter();">
     </div>
     <div>
         <table id="output">
@@ -48,6 +48,7 @@
         </table>
     </div>
     <div>
+        <h1>Number of elements: <span id="counterForElements">0</span></h1>
         <h1>Removed elements</h1>
         <table id="removed">
 
@@ -57,7 +58,7 @@
         var title = document.getElementById("title");
         var author = document.getElementById("author");
         var output = document.getElementById("output");
-        
+       
         function addToTable(){
             var radio = document.getElementsByName("content");
             var radio_selected;
@@ -69,8 +70,12 @@
             output.innerHTML += "<tr>" + "<td>" + title.value + "</td>" + 
             "<td>" + author.value + "</td>" + 
             "<td>" + radio_selected + "</td>" + 
-            "<td>" +  "<input type='button' onclick='post(this);' id='post' value ='Post'>"+
-            "<input type='button' onclick='remove(this);' id='remove'value ='Remove'>" + "</td>" + "</tr>"
+            "<td>" +  "<input type='button' onclick='post(this);' value ='Post'>"+
+            "<input type='button' onclick='remove(this);' value ='Remove'>" + "</td>" + "</tr>"
+        }
+        function counter(){
+            var brojac = document.getElementById("counterForElements");
+            brojac.innerHTML = parseInt(brojac.innerHTML)+1;
         }
         function remove(btn){
             var row = btn.parentNode.parentNode;
@@ -78,7 +83,8 @@
             // removed.append(row); // za dodavanje cel red vo tabela
             // removed.append(row.firstChild); // prv element
             row.parentNode.removeChild(row);
-
+            var brojac = document.getElementById("counterForElements");//BROJAC
+            brojac.innerHTML = parseInt(brojac.innerHTML) - 1;//BROJAC
         }
         function post(btn){
             var row = btn.parentNode;
