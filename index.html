@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+       label{
+           width: 100px;
+           display: inline-block;
+       }
+       table,th,td,tr,td{
+           border: 1px solid black;
+           border-collapse: collapse;
+       }
+       table td{
+           text-align: center;
+       }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div>
+            <label for="Title">Title</label>
+            <input type="text" id="title">
+        </div>
+        <div>
+            <label for="Author">Author</label>
+            <input type="text" id="author">
+        </div>
+        <div>
+            <label for="content" id="contentlabel">Content type</label>
+            <input type="radio" name="content" value="Free" class="content">Free
+            <input type="radio" name="content" value="Paid" class="content">Paid
+        </div>
+    </div>
+    <div>
+        <input type="button" value="Add" onclick="addToTable();">
+    </div>
+    <div>
+        <table id="output">
+            <th style="width:40%;">Title</th>
+            <th style="width:40%;">Author</th>
+            <th style="width:10%;">Type</th>
+            <th style="width:10%;">Button</th>
+        </table>
+    </div>
+    <div>
+        <h1>Removed elements</h1>
+        <table id="removed">
+
+        </table>
+    </div>
+    <script>
+        var title = document.getElementById("title");
+        var author = document.getElementById("author");
+        var output = document.getElementById("output");
+        
+        function addToTable(){
+            var radio = document.getElementsByName("content");
+            var radio_selected;
+            for (var a = 0;  a < radio.length; a++) {
+                if (radio[a].checked) {
+                    radio_selected = radio[a].value;
+                }
+            }
+            output.innerHTML += "<tr>" + "<td>" + title.value + "</td>" + 
+            "<td>" + author.value + "</td>" + 
+            "<td>" + radio_selected + "</td>" + 
+            "<td>" +  "<input type='button' onclick='post(this);' id='post' value ='Post'>"+
+            "<input type='button' onclick='remove(this);' id='remove'value ='Remove'>" + "</td>" + "</tr>"
+        }
+        function remove(btn){
+            var row = btn.parentNode.parentNode;
+            var removed = document.getElementById("removed");
+            // removed.append(row); // za dodavanje cel red vo tabela
+            // removed.append(row.firstChild); // prv element
+            row.parentNode.removeChild(row);
+
+        }
+        function post(btn){
+            var row = btn.parentNode;
+            row.parentNode.style.backgroundColor = "Green";
+            btn.setAttribute("disabled","true");
+            btn.parentNode.lastElementChild.setAttribute("disabled","true");
+        }        
+    </script>
+</body>
+</html>
