@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, thead, tbody, td, tr, th{
+            border-collapse: collapse;
+            border: 3px solid black;
+        }
+
+        #removed{
+            position: absolute;
+            left:700px;
+        }
+
+        #post{
+            height: 50px;
+        }
+
+        #id1, #numPublished{
+            display: inline;
+        }
+
+    </style>
+    <script type="text/javascript">
+        let count = 0;
+
+        let data = '[{"title":"FCSE announcement", "post":"FSCE is starting with classes this semestar from 15th Feb.", "type":"Free", "category":"Education", "published":true},{"title":"What is an NFT", "post":"An NFT, which stands for non-fungible token, is a unique unit of data employing technology that allows digital content to become logged and authenticated on cryptocurrency blockchains", "type":"Free", "category":"Science", "pusblished": false}]'
+        let newData = JSON.parse(data);
+        //console.log(newData);
+
+        window.onload = function (){
+            let row1 = document.createElement("tr");
+            //console.log(row1);
+
+            for(let i = 0; i<newData.length; i++) {
+
+                let title = newData[i].title;
+                let post = newData[i].post;
+                let type = newData[i].type;
+                let cat = newData[i].category;
+                let pub = newData[i].published;
+                //console.log(pub);
+
+
+                let row1 = document.createElement("tr");
+
+                let idn = "id" + i;
+                //console.log(idn);
+
+                let naslov = "finki.ukm.mk/" + title.toLowerCase().split(" ").join("-")
+
+                row1.innerHTML = "<td>" + title + "</td>" +
+                    "<td>" + post + "</td>" +
+                    "<td>" + naslov + "</td>" +
+                    "<td>" + type + "</td>" +
+                    "<td>" + cat + "</td>" +
+                    "<td><button onclick='post(this)' id=idn >Publish</button><br><button onclick='removeRow(this)'>Remove</button></td>";
+
+                //console.log(row1);
+                if(pub === "true"){
+                        row1.parentNode.style.backgroundColor = "lightblue";
+
+                }
+                let t = document.getElementById("tuka")
+                t.appendChild(row1);
+
+                //console.log(pub);
+                if(pub == true){
+                    row1.style.backgroundColor = "lightblue";
+                    let publish = document.getElementById("idn");
+                    publish.disabled = true;
+                    publish.nextElementSibling.nextElementSibling.disabled = true;
+                    let number = document.getElementById("numPublished");
+                    number.innerText = ++count;
+
+                }
+
+
+            }
+        }
+
+        function importPost(){
+                let title = document.getElementById("title").value;
+                let post = document.getElementById("post").value;
+                //console.log(post);
+                let type1 = document.getElementsByName("cont");
+                let type;
+                for(let i = 0; i< type1.length; i++){
+                    if(type1[i].checked)
+                        type = type1[i].value
+                }
+                //console.log(type);
+                let cat1 = document.getElementsByTagName("option");
+                let cat;
+                for(let i = 0; i<cat1.length; i++){
+                    if(cat1[i].selected)
+                        cat = cat1[i].value;
+                }
+                //console.log(cat);
+                //console.log("finki.ukm.mk/" + title.toLowerCase().split(" ").join("-"));
+
+                if(title != "" && post !=""){
+                    let row = document.createElement("tr");
+                    let t = document.getElementById("tuka")
+                    t.appendChild(row);
+                    let naslov = "finki.ukm.mk/" + title.toLowerCase().split(" ").join("-")
+
+                    row.innerHTML = "<td>" + title + "</td>" +
+                                    "<td>" + post + "</td>" +
+                                    "<td>" + naslov + "</td>" +
+                                    "<td>" + type + "</td>" +
+                                    "<td>" + cat + "</td>" +
+                                    "<td><button onclick='post(this)'>Publish</button><br><button onclick='removeRow(this)'>Remove</button></td>";
+
+                }
+
+
+
+
+            }
+
+
+            function post(publish){
+                publish.parentNode.parentNode.style.backgroundColor = "lightblue";
+                publish.disabled = true;
+                publish.nextElementSibling.nextElementSibling.disabled = true;
+                let number = document.getElementById("numPublished");
+                number.innerText = ++count;
+
+            }
+
+            function removeRow(remove){
+                let row = remove.parentNode.parentNode;
+                console.log(row);
+                row.style.opacity = 1;
+                let myInterval = setInterval(function (){
+                    row.style.opacity -= 0.1;
+
+                },200);
+
+                setTimeout(function (){
+                    clearInterval(myInterval);
+                    let x = document.getElementById("izbrisani");
+                    let li = document.createElement("li");
+                    //console.log(row.children[2].innerHTML);
+                    li.innerHTML = row.children[2].innerHTML;
+                    x.appendChild(li);
+                    row.parentNode.removeChild(row);
+
+                    //li.innerHTML =
+                },2000)
+            }
+    </script>
+
+    </head>
+<body>
+<div id="removed">
+    <h3>Removed links</h3>
+    <ul id="izbrisani">
+
+    </ul>
+</div>
+<h1>Post details</h1>
+<label>Title</label> <input type="text" id="title"> <br>
+<label> Post</label> <textarea id="post"></textarea> <br>
+<label>Content type</label> <input type="radio" name="cont" value="Free" checked>Free <input type="radio" name="cont" value="Paid"> Paid <br>
+<label>Category</label>
+<select>
+    <option value="Science">Science</option>
+    <option value="Education">Education</option>
+    <option value="Industry">Industry</option>
+</select>
+
+
+<div>
+    <button onclick="importPost()">Import post</button>
+</div>
+
+
+
+<h1 id="id1">Published posts</h1> <h1 id="numPublished"></h1>
+<table id="published">
+    <thead>
+    <tr><th>Title</th><th>Post</th><th>Link</th><th>Type</th><th>Category</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="tuka">
+
+    </tbody>
+
+</table>
+
+
+
+</body>
+</html>
