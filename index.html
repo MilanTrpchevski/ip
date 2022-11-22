@@ -65,7 +65,14 @@
         var author = document.getElementById("author");
         var output = document.getElementById("output");
        
+        
         function addToTable(){
+            //Proveri dali site polinja se vneseni
+            if(title!="" || author!="" || output !=""){
+                alert("Vnesi gi site vrednosti");
+                return;
+            }
+            //Vrenosta od radio buttons
             var radio = document.getElementsByName("content");
             var radio_selected;
             for (var a = 0;  a < radio.length; a++) {
@@ -73,16 +80,19 @@
                     radio_selected = radio[a].value;
                 }
             }
+            //Add to table
             output.innerHTML += "<tr>" + "<td>" + title.value + "</td>" + 
             "<td>" + author.value + "</td>" + 
             "<td>" + radio_selected + "</td>" + 
             "<td>" +  "<input type='button' onclick='post(this);' value ='Post'>"+
             "<input type='button' onclick='remove(this);' value ='Remove'>" + "</td>" + "</tr>"
         }
+        //Brojach na elementi vo tabela
         function counter(){
             var brojac = document.getElementById("counterForElements");
             brojac.innerHTML = parseInt(brojac.innerHTML)+1;
         }
+        //Brishenje na element od tabela
         function remove(btn){
             var row = btn.parentNode.parentNode;
             var removed = document.getElementById("removed");
@@ -92,6 +102,7 @@
             var brojac = document.getElementById("counterForElements");//BROJAC
             brojac.innerHTML = parseInt(brojac.innerHTML) - 1;//BROJAC
         }
+        //Post na element od tabela
         function post(btn){
             var row = btn.parentNode;
             row.parentNode.style.backgroundColor = "Green";
